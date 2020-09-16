@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
 	"github.com/hellojukay/proc/environ"
 )
@@ -20,9 +21,8 @@ func init() {
 func main() {
 	m, err := environ.GetEnv(pid)
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(os.Stderr, "%s", err)
+		os.Exit(1)
 	}
-	for k, v := range m {
-		fmt.Printf("%-20s%-30s\n", k, v)
-	}
+	environ.PrintEnv(m)
 }

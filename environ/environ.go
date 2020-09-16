@@ -32,3 +32,23 @@ func GetEnv(pid int) (env map[string]string, err error) {
 	}
 	return env, nil
 }
+
+func PrintEnv(env map[string]string) {
+	if env == nil {
+		return
+	}
+	var maxKeyLen = 0
+	var maxValLen = 0
+	for key, val := range env {
+		if len(key) > maxKeyLen {
+			maxKeyLen = len(key)
+		}
+		if len(val) > maxValLen {
+			maxValLen = len(val)
+		}
+	}
+	var printFmt = strings.Join([]string{"%-", fmt.Sprintf("%d", 3+maxKeyLen), "s", "%-", "s\n"}, "")
+	for key, val := range env {
+		fmt.Printf(printFmt, key, val)
+	}
+}
