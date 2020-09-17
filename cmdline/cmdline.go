@@ -61,7 +61,7 @@ func readCmdLine(pid int) (string, error) {
 }
 
 func PrintCmdLine(c CmdLine) {
-	fmt.Printf("%-10s%s\n", "cmdline", c.CmdLine)
-	fmt.Printf("%-10s%s\n", "exe", c.Exe)
-	fmt.Printf("%-10s%s\n", "workspace", c.Cwd)
+	fmt.Printf("%-12s%s\n", "cmdline", c.CmdLine)
+	fmt.Printf("%-12s%s\n", "exe", c.Exe)
+	fmt.Printf("%-12s%s\n", "workspace", c.Cwd)
 }
