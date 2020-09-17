@@ -15,6 +15,7 @@ func GetEnv(pid int) (env map[string]string, err error) {
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("can not open file %s:%s", file, err))
 	}
+	defer fh.Close()
 	env = make(map[string]string)
 	var reader = bufio.NewReader(fh)
 	for {
