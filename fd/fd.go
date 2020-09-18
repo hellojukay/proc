@@ -1,10 +1,13 @@
 package fd
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 type File struct {
@@ -13,11 +16,20 @@ type File struct {
 }
 
 func (f File) IsSocket() bool {
-	return false
+	r := regexp.MustCompile("socket:\\[[0-9]+\\]")
+	return r.MatchString(f.Link)
 }
 
 func (f File) isNomalFile() bool {
-	return false
+	return strings.HasPrefix(f.Link, "/")
+}
+
+func (f File) Inode() (string, error) {
+	if !f.IsSocket() {
+		return "", errors.New("not socket description")
+	}
+	r := regexp.MustCompile("socket:\\[([0-9]+)\\]")
+	return r.FindAllStringSubmatch(f.Link, -1)[0][0], nil
 }
 
 func ReadFd(pid int) ([]File, error) {

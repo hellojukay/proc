@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/hex"
 	"fmt"
+	"github.com/hellojukay/proc/fd"
 	"io"
 	"net"
 	"os"
@@ -118,7 +119,7 @@ func parseNetLine(fields []string) (*NetLine, error) {
 		return nil, fmt.Errorf(
 			"cannot parse uid value in socket line: %s", err)
 	}
-
+	line.Inode = fields[9]
 	return line, nil
 }
 
@@ -145,6 +146,7 @@ type (
 		TxQueue   uint64
 		RxQueue   uint64
 		UID       uint64
+		Inode     string
 	}
 )
 
@@ -240,7 +242,14 @@ func ReadNetInfo(pid int) ([]NetInfo, error) {
 	if err == nil {
 		netInfos = append(netInfos, udp6Infos...)
 	}
-	return netInfos, err
+	var inodes = socketInodes(pid)
+	var result []NetInfo
+	for _, info := range netInfos {
+		if inArray(info.Inode, inodes) {
+			result = append(result, info)
+		}
+	}
+	return result, err
 }
 func PrintNetInfo(netInfos []NetInfo) {
 	fmt.Printf("%-15s%-20s%-15s%-10s%-15s%10s\n", "PROTOCOL", "STATE", "LOCAL", "PORT", "REMOTE", "PORT")
@@ -286,4 +295,30 @@ func reverseString(arr []string) []string {
 		result = append([]string{s}, result...)
 	}
 	return result
+}
+
+func socketInodes(pid int) []string {
+	files, err := fd.ReadFd(pid)
+	if err != nil {
+		return nil
+	}
+	var inodes []string
+	for _, file := range files {
+		println(file.Link)
+		println(file.IsSocket())
+		if file.IsSocket() {
+			inode, _ := file.Inode()
+			inodes = append(inodes, inode)
+		}
+	}
+	return inodes
+}
+
+func inArray(s string, arr []string) bool {
+	for _, str := range arr {
+		if str == s {
+			return true
+		}
+	}
+	return false
 }
