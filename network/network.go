@@ -177,7 +177,7 @@ func ReadTCP(pid int) ([]NetInfo, error) {
 	return result, nil
 }
 func ReadTCPv6(pid int) ([]NetInfo, error) {
-	var path = fmt.Sprintf("/proc/%d/net/tcp", pid)
+	var path = fmt.Sprintf("/proc/%d/net/tcp6", pid)
 	ns, err := newNet(path)
 	if err != nil {
 		return nil, err
@@ -243,12 +243,40 @@ func ReadNetInfo(pid int) ([]NetInfo, error) {
 	return netInfos, err
 }
 func PrintNetInfo(netInfos []NetInfo) {
-	fmt.Printf("%-10s%-15s%-10s%-15s%10s\n", "PROTOCOL", "LOCAL", "PORT", "REMOTE", "PORT")
+	fmt.Printf("%-15s%-20s%-15s%-10s%-15s%10s\n", "PROTOCOL", "STATE", "LOCAL", "PORT", "REMOTE", "PORT")
 	for _, info := range netInfos {
-		fmt.Printf("%-10s%-15s%-10d%-15s%10d\n", info.Type, reverseIp(info.LocalAddr.String()), info.LocalPort, reverseIp(info.RemAddr.String()), info.RemPort)
+		fmt.Printf("%-15s%-20s%-15s%-10d%-15s%10d\n", info.Type, socketSatteString(info.St), reverseIp(info.LocalAddr.String()), info.LocalPort, reverseIp(info.RemAddr.String()), info.RemPort)
 	}
 }
 
+func socketSatteString(st uint64) string {
+	switch st {
+	case 1:
+		return "TCP_ESTABLISHED"
+	case 2:
+		return "TCP_SYN_SENT"
+	case 3:
+		return "TCP_SYN_RECV"
+	case 4:
+		return "TCP_FIN_WAIT1"
+	case 5:
+		return "TCP_FIN_WAIT2"
+	case 6:
+		return "TCP_TIME_WAIT"
+	case 7:
+		return "TCP_CLOSE"
+	case 8:
+		return "TCP_CLOSE_WAIT"
+	case 9:
+		return "TCP_LAST_ACL"
+	case 10:
+		return "TCP_LISTEN"
+	case 11:
+		return "TCP_CLOSING"
+	default:
+		return "UNKNOW"
+	}
+}
 func reverseIp(ip string) string {
 	return strings.Join(reverseString(strings.Split(ip, ".")), ".")
 }
