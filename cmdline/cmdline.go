@@ -12,6 +12,7 @@ type CmdLine struct {
 	Exe     string
 	Cwd     string
 	CmdLine string
+	Thread  int
 }
 
 func GetCmdLine(pid int) (CmdLine, error) {
@@ -28,9 +29,14 @@ func GetCmdLine(pid int) (CmdLine, error) {
 	if err != nil {
 		return cmd, err
 	}
+	threads, err := CountThread(pid)
+	if err != nil {
+		return cmd, err
+	}
 	cmd.CmdLine = cmdline
 	cmd.Exe = exe
 	cmd.Cwd = cwd
+	cmd.Thread = threads
 	return cmd, nil
 }
 
@@ -64,4 +70,5 @@ func PrintCmdLine(c CmdLine) {
 	fmt.Printf("%-12s%s\n", "cmdline", c.CmdLine)
 	fmt.Printf("%-12s%s\n", "exe", c.Exe)
 	fmt.Printf("%-12s%s\n", "workspace", c.Cwd)
+	fmt.Printf("%-12s%d\n", "thread", c.Thread)
 }
