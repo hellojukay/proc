@@ -28,8 +28,8 @@ func (f File) Inode() (string, error) {
 	if !f.IsSocket() {
 		return "", errors.New("not socket description")
 	}
-	r := regexp.MustCompile("socket:\\[([0-9]+)\\]")
-	return r.FindAllStringSubmatch(f.Link, -1)[0][0], nil
+	r := regexp.MustCompile(`socket:\[(\d+)\]`)
+	return r.FindAllStringSubmatch(f.Link, -1)[0][1], nil
 }
 
 func ReadFd(pid int) ([]File, error) {
