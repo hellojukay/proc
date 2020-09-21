@@ -40,7 +40,28 @@ hellojukay@local proc (master) $ sudo ./proc -p 765 -f
 
 ## show network 
 ```shell
-hellojukay@local proc (master) $ sudo ./proc -p 765 -n
+hellojukay@local proc (master) $ sudo ./proc -p 757 -n
+PROTOCOL       STATE               LOCAL          PORT      REMOTE               PORT
+tcp            TCP_ESTABLISHED     10.91.28.69    35450     42.2.21.58            156
+tcp            TCP_ESTABLISHED     10.91.28.69    35910     42.2.21.58            156
+tcp            TCP_ESTABLISHED     10.91.28.69    47454     172.24.6.35           443
+tcp            TCP_ESTABLISHED     10.91.28.69    35516     42.2.21.58            156
+tcp            TCP_ESTABLISHED     10.91.28.69    33254     42.2.21.58            156
+tcp            TCP_ESTABLISHED     10.91.28.69    34012     103.41.167.214        443
+tcp            TCP_ESTABLISHED     10.91.28.69    35476     42.2.21.58            156
+tcp6           TCP_LISTEN          ::             9090      ::                      0
+tcp6           TCP_LISTEN          ::             7890      ::                      0
+tcp6           TCP_LISTEN          ::             7891      ::                      0
+tcp6           TCP_LISTEN          ::             7892      ::                      0
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     59248
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     43126
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     45594
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     45568
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     46028
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     45634
+tcp6           TCP_ESTABLISHED     ::ffff:0:100:7f7890      ::ffff:0:100:7f     43372
+tcp6           TCP_CLOSE           ::             7891      ::                      0
+tcp6           TCP_CLOSE           ::             7892      ::                      0
 ```
 
 # install

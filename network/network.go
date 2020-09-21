@@ -304,8 +304,6 @@ func socketInodes(pid int) []string {
 	}
 	var inodes []string
 	for _, file := range files {
-		println(file.Link)
-		println(file.IsSocket())
 		if file.IsSocket() {
 			inode, _ := file.Inode()
 			inodes = append(inodes, inode)
