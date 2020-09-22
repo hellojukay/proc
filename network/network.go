@@ -252,9 +252,9 @@ func ReadNetInfo(pid int) ([]NetInfo, error) {
 	return result, err
 }
 func PrintNetInfo(netInfos []NetInfo) {
-	fmt.Printf("%-15s%-20s%-15s%-10s%-15s%10s\n", "PROTOCOL", "STATE", "LOCAL", "PORT", "REMOTE", "PORT")
+	fmt.Printf("%-15s%-20s%-20s%-15s%-15s%10s\n", "PROTOCOL", "STATE", "LOCAL", "PORT", "REMOTE", "PORT")
 	for _, info := range netInfos {
-		fmt.Printf("%-15s%-20s%-15s%-10d%-15s%10d\n", info.Type, socketSatteString(info.St), reverseIp(info.LocalAddr.String()), info.LocalPort, reverseIp(info.RemAddr.String()), info.RemPort)
+		fmt.Printf("%-15s%-20s%-20s%-15d%-15s%10d\n", info.Type, socketSatteString(info.St), reverseIp(info.LocalAddr.String()), info.LocalPort, reverseIp(info.RemAddr.String()), info.RemPort)
 	}
 }
 
