@@ -11,11 +11,13 @@ import (
 	"github.com/hellojukay/proc/network"
 )
 
-var enableEnv = false
-var enableNet = false
-var enableFile = false
-var enableCmd = false
-var pid = 0
+var (
+	enableEnv  = false
+	enableNet  = false
+	enableFile = false
+	enableCmd  = false
+	pid        = 0
+)
 
 func init() {
 	flag.BoolVar(&enableEnv, "e", false, "show process environment list")
@@ -25,6 +27,7 @@ func init() {
 	flag.IntVar(&pid, "p", 1, "process pid")
 	flag.Parse()
 }
+
 func main() {
 	if enableEnv {
 		m, err := environ.GetEnv(pid)
